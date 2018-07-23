@@ -32,15 +32,21 @@ ui <- fluidPage(
 server <- function(input, output) {
    
    output$distPlot <- renderPlot({
-      g <- 9.8 #Constante de la gravedad
-      angrad <- (input$ang*pi)/180  #Paso los grados qe la usuario me pidió, a radianes
-      m <- (sin(angrad)*g)/input$kg #Calculo la aceleración de la caída
+      g <- 9.80665 #Constante de la gravedad
+      fg <- input$kg*g #Fuerza ejercida en la bola por la gravedad
+
+      angrad <- input$ang*(pi/180)  #Paso los grados qe la usuario me pidió, a radianes
+      
+      fc <- sin(angrad)*fg #Calculo la fuerza de la caída
+      a <- fc/input$kg #Calculo la aceleración de la caída
+      tcuad <- (input$dist*2)/a #Calculo el tiempo qe tarda en llegar al piso (separé el raizarlo por si no anda bien)
+      t <- tcuad^0.5 #Finalizo el cálculo del tiempo
+      
       b <- sin(angrad)*input$dist #Calculo la altura inicial
-      tiempo <- (input$dist*2/m)^0.5 #Calculo el tiempo qe tarda en llegar al piso
       cayo <- cos(angrad)*input$dist #Calculo la base sobre la qe está puesta la rampa
 
-      curve(-m*x^2+b,
-            xlim = c(0, cayo),
+      curve(-a*x+b,
+            xlim = c(0, t+1),
             ylim = c(0, b),
             xlab = "Tiempo de caida en segundos",
             ylab = "Altura en metros",
