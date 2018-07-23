@@ -38,7 +38,6 @@ server <- function(input, output) {
       b <- sin(angrad)*input$dist
       tiempo <- (input$dist*2/m)^0.5
       cayo <- cos(angrad)*input$dist
-      x <- 1
 
       curve(-m*x+b,
             xlim = c(0, cayo),
