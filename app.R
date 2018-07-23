@@ -37,10 +37,10 @@ server <- function(input, output) {
       m <- (sin(angrad)*g)/input$kg #Calculo la aceleración de la caída
       b <- sin(angrad)*input$dist #Calculo la altura inicial
       tiempo <- (input$dist*2/m)^0.5 #Calculo el tiempo qe tarda en llegar al piso
-      cayo <- cos(angrad)*input$dist
+      cayo <- cos(angrad)*input$dist #Calculo la base sobre la qe está puesta la rampa
 
       curve(-m*x^2+b,
-            xlim = c(0, tiempo),
+            xlim = c(0, cayo),
             ylim = c(0, b),
             xlab = "Tiempo de caida en segundos",
             ylab = "Altura en metros",
